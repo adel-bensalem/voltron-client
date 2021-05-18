@@ -1,8 +1,29 @@
 {
   "name": "voltron-client",
   "version": "1.0.0",
-  "main": "./src/main.ts",
+  "main": "./dist/main.js",
+  "types": "./dist/main.d.ts",
   "repository": "git@github.com:adel-bensalem/voltron-client.git",
   "author": "adel.bensalem1 <adel.bensalem@augeo.org>",
-  "license": "MIT"
+  "bin": "./bin/main.js",
+  "license": "MIT",
+  "pkg": {
+    "scripts": "dist/**/*.js",
+    "outputPath": "bin/voltron.exe"
+  },
+  "scripts": {
+    "build": "tsc && pkg ./dist/main.js -o ./bin/voltron.exe"
+  },
+  "devDependencies": {
+    "@types/commander": "^2.12.2",
+    "@types/node": "^15.3.0",
+    "@types/node-ssh": "^7.0.0",
+    "pkg": "^5.1.0",
+    "prettier": "^2.3.0",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "commander": "^7.2.0",
+    "node-ssh": "^11.1.1"
+  }
 }
