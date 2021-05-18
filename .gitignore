@@ -1,2 +1,8 @@
 .idea/
+bin/
+dist/
+node_modules/
 voltron-client.iml
+voltron-client-linux
+voltron-client-macos
+voltron-client-win.exe
