@@ -1,4 +1,5 @@
 import { NodeSSH } from "node-ssh";
+import { red } from "colors";
 import { createCore } from "./core/main";
 import { createHooks } from "./libs/hooks";
 import { createRepository } from "./libs/repository";
@@ -27,7 +28,9 @@ const main = () => {
     })
     .catch(() =>
       console.log(
-        "Connection to server failed, the provided ssh key is either invalid or the server is down"
+        red(
+          "Connection to server failed, the provided ssh key is either invalid or the server is down"
+        )
       )
     );
 };
