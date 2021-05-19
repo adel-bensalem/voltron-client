@@ -5,7 +5,7 @@ const connectToHost = (key: string): Promise<NodeSSH> => {
 
   return connection
     .connect({
-      host: "10.41.177.169",
+      host: "192.168.0.43",
       username: "git",
       privateKey: key,
     })
