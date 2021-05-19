@@ -4,7 +4,7 @@
   "main": "./dist/main.js",
   "types": "./dist/main.d.ts",
   "repository": "git@github.com:adel-bensalem/voltron-client.git",
-  "author": "adel.bensalem1 <adel.bensalem@augeo.org>",
+  "author": "adel.bensalem <adel.bensalem@epitech.eu>",
   "bin": "./bin/voltron.exe",
   "license": "MIT",
   "pkg": {
