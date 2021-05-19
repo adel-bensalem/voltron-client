@@ -1,5 +1,5 @@
 type Application = {
-    name: string;
-}
+  name: string;
+};
 
-export { Application }
+export { Application };
