@@ -10,10 +10,10 @@
     "declaration": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "commonjs",
+    "module": "system",
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "./dist"
+    "outFile": "./bin/voltron"
   },
   "include": ["src"]
 }

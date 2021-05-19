@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { createCore } from "./core/main";
 import { createRepository } from "./libs/repository";
 import { createPresenter } from "./libs/presenter";
