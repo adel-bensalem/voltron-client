@@ -1,11 +1,10 @@
-import { NodeSSH } from "node-ssh";
 import { yellow } from "colors";
 import { Core } from "../core/main";
 import { program } from "./config";
 import { createRouter } from "./router";
 import { printManual } from "./printManual";
 
-const createCli = (core: Core, connection: NodeSSH) => {
+const createCli = (core: Core) => {
   const [command = "", value = ""] = program.args;
   const router = createRouter();
 
@@ -14,7 +13,6 @@ const createCli = (core: Core, connection: NodeSSH) => {
     !command || help
       ? printManual()
       : console.log(yellow(`No command matched ${command}`));
-    connection.dispose();
   });
   router.exec(command, value, program.opts());
 };

@@ -1,5 +1,4 @@
 import { ApplicationRepository } from "./adapters/applicationRepository";
-import { Hooks } from "./adapters/hooks";
 import {
   ApplicationCreationInteractor,
   createApplicationCreationInteractor,
@@ -8,7 +7,6 @@ import { ApplicationCreationPresenter } from "./adapters/applicationCreationPres
 
 type Dependencies = {
   applicationRepository: ApplicationRepository;
-  hooks: Hooks;
   presenter: ApplicationCreationPresenter;
 };
 
@@ -19,7 +17,6 @@ type Core = {
 const createCore = (dependencies: Dependencies): Core => ({
   createApplication: createApplicationCreationInteractor(
     dependencies.applicationRepository,
-    dependencies.hooks,
     dependencies.presenter
   ),
 });
@@ -29,6 +26,5 @@ export {
   Core,
   Dependencies,
   ApplicationRepository,
-  Hooks,
   ApplicationCreationPresenter,
 };
