@@ -1,5 +1,5 @@
 {
-  "name": "voltron-client",
+  "name": "@adel-bensalem/voltron-client",
   "version": "1.0.0",
   "main": "./dist/main.js",
   "types": "./dist/main.d.ts",
@@ -12,7 +12,10 @@
     "outputPath": "bin/voltron.exe"
   },
   "scripts": {
-    "build": "tsc && pkg ./dist/main.js -o ./bin/voltron.exe"
+    "build": "tsc && pkg ./dist/main.js -o ./bin/voltron.exe",
+    "prepare": "npm run build",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "devDependencies": {
     "@types/colors": "^1.2.1",
