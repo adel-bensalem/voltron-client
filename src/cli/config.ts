@@ -1,5 +1,7 @@
 import { program } from "commander";
 
-program.parse();
+program.option("-k, --key <key>", "SSH key file");
+
+program.parse(process.argv);
 
 export { program };

@@ -4,7 +4,6 @@ import { program } from "./config";
 import { createRouter } from "./router";
 
 const createCli = (core: Core, connection: NodeSSH) => {
-  program.parse();
   const [command, value] = program.args;
   const router = createRouter();
 
