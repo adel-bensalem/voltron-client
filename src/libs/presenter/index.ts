@@ -1,5 +1,5 @@
 import { NodeSSH } from "node-ssh";
-import { blue, red } from "colors";
+import { blue, red, yellow } from "colors";
 import { Presenter } from "./types";
 
 const createPresenter = (connection: NodeSSH): Presenter => ({
@@ -7,8 +7,15 @@ const createPresenter = (connection: NodeSSH): Presenter => ({
     console.log(blue(`Created application ${name}`));
     connection.dispose();
   },
-  presentApplicationCreationFailure: (error) => {
-    console.log(red(`An error occurred:`), error);
+  presentApplicationCreationFailure: (
+    { isApplicationInvalid, doesApplicationExists },
+    { name }
+  ) => {
+    doesApplicationExists
+      ? console.log(yellow(`Application ${blue(name)} already exists`))
+      : isApplicationInvalid
+      ? console.log(red("The provided application name is invalid"))
+      : console.log(red("An unexpected error occured"));
     connection.dispose();
   },
 });

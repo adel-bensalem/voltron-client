@@ -12,7 +12,7 @@ const createRepository = (connection: NodeSSH): Repository => ({
   findApplication: (application: Application): Promise<Application | null> =>
     connection
       .execCommand(`[ -d ~/${application.name}.git ]`)
-      .then(({ code }) => (code !== 0 ? application : null)),
+      .then(({ code }) => (code === 1 ? null : application)),
 });
 
 export { createRepository };

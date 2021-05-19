@@ -15,8 +15,8 @@ const createApplicationCreationInteractor =
   (application) =>
     repository
       .findApplication(application)
-      .then((application) =>
-        !!application
+      .then((app) =>
+        !app
           ? isApplicationValid(application)
             ? repository
                 .saveApplication(application)
@@ -24,16 +24,38 @@ const createApplicationCreationInteractor =
                 .then(() =>
                   presenter.presentApplicationCreationSuccess(application)
                 )
-                .catch(presenter.presentApplicationCreationFailure)
-            : presenter.presentApplicationCreationFailure({
-                isApplicationInvalid: true,
-                doesApplicationExists: false,
-              })
-          : presenter.presentApplicationCreationFailure({
-              isApplicationInvalid: false,
-              doesApplicationExists: true,
-            })
+                .catch(() =>
+                  presenter.presentApplicationCreationFailure(
+                    {
+                      isApplicationInvalid: false,
+                      doesApplicationExists: false,
+                    },
+                    application
+                  )
+                )
+            : presenter.presentApplicationCreationFailure(
+                {
+                  isApplicationInvalid: true,
+                  doesApplicationExists: false,
+                },
+                application
+              )
+          : presenter.presentApplicationCreationFailure(
+              {
+                isApplicationInvalid: false,
+                doesApplicationExists: true,
+              },
+              application
+            )
       )
-      .catch(presenter.presentApplicationCreationFailure);
+      .catch(() =>
+        presenter.presentApplicationCreationFailure(
+          {
+            isApplicationInvalid: false,
+            doesApplicationExists: false,
+          },
+          application
+        )
+      );
 
 export { createApplicationCreationInteractor, ApplicationCreationInteractor };
