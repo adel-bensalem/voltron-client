@@ -1,6 +1,6 @@
 {
   "name": "@adel-bensalem/voltron-client",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "./bin/main.js",
   "types": "./bin/main.d.ts",
   "repository": "git@github.com:adel-bensalem/voltron-client.git",
@@ -16,7 +16,7 @@
     "postversion": "git push && git push --tags"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "registry": "https://registry.npmjs.org/"
   },
   "files": [
     "./bin"
