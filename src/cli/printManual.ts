@@ -8,9 +8,10 @@ ${bold(white("Usage:"))}
 
 ${bold(white("Options:"))}
   -k, --key      ssh key used to interact with repository - mandatory
+  -h, --help     print usage information
     
 ${bold(white("Commands:"))}
-  create         Create a new application, takes an application name as value
+  create         create a new application, takes an application name as value
 `.trim()
   );
 

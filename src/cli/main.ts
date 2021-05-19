@@ -10,10 +10,10 @@ const createCli = (core: Core, connection: NodeSSH) => {
   const router = createRouter();
 
   router.add("create", (_, name) => core.createApplication({ name }));
-  router.addFallback((command) => {
-    command
-      ? console.log(yellow(`No command matched ${command}`))
-      : printManual();
+  router.addFallback((command, _, { help }) => {
+    !command || help
+      ? printManual()
+      : console.log(yellow(`No command matched ${command}`));
     connection.dispose();
   });
   router.exec(command, value, program.opts());
