@@ -11,48 +11,20 @@ const createApplicationCreationInteractor =
     presenter: ApplicationCreationPresenter
   ): ApplicationCreationInteractor =>
   (application) =>
-    repository
-      .findApplication(application)
-      .then((app) =>
-        !app
-          ? isApplicationValid(application)
-            ? repository
-                .saveApplication(application)
-                .then(() =>
-                  presenter.presentApplicationCreationSuccess(application)
-                )
-                .catch(() =>
-                  presenter.presentApplicationCreationFailure(
-                    {
-                      isApplicationInvalid: false,
-                      doesApplicationExists: false,
-                    },
-                    application
-                  )
-                )
-            : presenter.presentApplicationCreationFailure(
-                {
-                  isApplicationInvalid: true,
-                  doesApplicationExists: false,
-                },
-                application
-              )
-          : presenter.presentApplicationCreationFailure(
-              {
-                isApplicationInvalid: false,
-                doesApplicationExists: true,
-              },
-              application
-            )
-      )
-      .catch(() =>
-        presenter.presentApplicationCreationFailure(
+    isApplicationValid(application)
+      ? repository
+          .saveApplication(application)
+          .then(() => presenter.presentApplicationCreationSuccess(application))
+          .catch((e) => {
+            console.log(e);
+            presenter.presentApplicationCreationFailure(e, application);
+          })
+      : presenter.presentApplicationCreationFailure(
           {
-            isApplicationInvalid: false,
+            isApplicationInvalid: true,
             doesApplicationExists: false,
           },
           application
-        )
-      );
+        );
 
 export { createApplicationCreationInteractor, ApplicationCreationInteractor };
