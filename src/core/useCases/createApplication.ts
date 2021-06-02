@@ -15,10 +15,9 @@ const createApplicationCreationInteractor =
       ? repository
           .saveApplication(application)
           .then(() => presenter.presentApplicationCreationSuccess(application))
-          .catch((e) => {
-            console.log(e);
-            presenter.presentApplicationCreationFailure(e, application);
-          })
+          .catch((e) =>
+            presenter.presentApplicationCreationFailure(e, application)
+          )
       : presenter.presentApplicationCreationFailure(
           {
             isApplicationInvalid: true,
