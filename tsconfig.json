@@ -6,7 +6,7 @@
     "lib": ["esnext"],
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": false,
+    "allowSyntheticDefaultImports": true,
     "declaration": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,

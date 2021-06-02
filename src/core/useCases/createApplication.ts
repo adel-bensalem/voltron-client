@@ -10,7 +10,9 @@ const createApplicationCreationInteractor =
     repository: ApplicationRepository,
     presenter: ApplicationCreationPresenter
   ): ApplicationCreationInteractor =>
-  (application) =>
+  (application) => {
+    presenter.presentApplicationCreationRequest(application);
+
     isApplicationValid(application)
       ? repository
           .saveApplication(application)
@@ -25,5 +27,6 @@ const createApplicationCreationInteractor =
           },
           application
         );
+  };
 
 export { createApplicationCreationInteractor, ApplicationCreationInteractor };
