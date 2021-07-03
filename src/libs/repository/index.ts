@@ -21,7 +21,7 @@ const createRepository = (): Repository => ({
   saveApplication: (application: Application): Promise<Application> =>
     new Promise((resolve, reject) =>
       axios
-        .post("http://repository.voltronlabs.com/applications", application)
+        .post("http://localhost:8000/applications", application)
         .then(() => resolve(application))
         .catch((error) =>
           reject(
