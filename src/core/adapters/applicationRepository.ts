@@ -1,7 +1,10 @@
-import { Application } from "../../types/application";
+import { Application, Identifiable, User } from "@types";
 
 interface ApplicationRepository {
-  saveApplication(application: Application): Promise<Application>;
+  saveApplication(
+    application: Application,
+    user: Identifiable<User>
+  ): Promise<Application>;
 }
 
 export { ApplicationRepository };

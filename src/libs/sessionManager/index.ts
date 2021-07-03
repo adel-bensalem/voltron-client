@@ -1,32 +1,23 @@
 import { SessionManager } from "@core";
-import temp from "temp";
 import * as fs from "fs";
+import * as os from "os";
+
+const SESSION_FILE = `${os.tmpdir()}/voltron-session`;
 
 const createSessionManager = (): SessionManager => ({
   start: (user, key) =>
     new Promise((resolve, reject) =>
-      temp.open("voltron", (err, result) => {
-        if (err) return reject(err);
-
-        fs.write(result.fd, JSON.stringify({ user, key }), reject);
-        fs.close(result.fd, reject);
-        resolve({ user, key });
-      })
+      fs.writeFile(SESSION_FILE, JSON.stringify({ user, key }), (err) =>
+        err ? reject(err) : resolve({ user, key })
+      )
     ),
   retrieve: () =>
     new Promise((resolve, reject) =>
-      temp.open("voltron", (err, result) => {
-        if (err) return reject(err);
-
-        fs.readFile(result.path, "utf8", (err, data) =>
-          err ? reject(err) : resolve(JSON.parse(data))
-        );
+      fs.readFile(SESSION_FILE, "utf8", (err, data) => {
+        err ? reject(err) : resolve(JSON.parse(data));
       })
     ),
-  destroy: () => {
-    temp.cleanupSync();
-    return Promise.resolve();
-  },
+  destroy: () => new Promise((resolve) => fs.rm(SESSION_FILE, () => resolve())),
 });
 
 export { createSessionManager };

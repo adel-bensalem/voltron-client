@@ -37,15 +37,14 @@ const createPresenter = (loader: Loader): Presenter => ({
     loader.stop();
     console.log(blue(`Created application ${name}`));
   },
-  presentApplicationCreationFailure: (
-    { isApplicationInvalid, doesApplicationExists },
-    { name }
-  ) => {
+  presentApplicationCreationFailure: (error, { name }) => {
     loader.stop();
-    doesApplicationExists
+    error.doesApplicationExists
       ? console.log(yellow(`Application ${blue(name)} already exists`))
-      : isApplicationInvalid
+      : error.isApplicationInvalid
       ? console.log(red("The provided application name is invalid"))
+      : error.wasSessionNotFound
+      ? console.log(red("You must be authenticated to create an application"))
       : console.log(red("An unexpected error occured"));
   },
 });

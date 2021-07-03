@@ -40,6 +40,7 @@ type Core = {
 const createCore = (dependencies: Dependencies): Core => ({
   createApplication: createApplicationCreationInteractor(
     dependencies.repository,
+    dependencies.sessionManager,
     dependencies.presenter
   ),
   register: createRegistrationInteractor(
