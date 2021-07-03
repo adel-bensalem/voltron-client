@@ -9,6 +9,9 @@ const createCli = (core: Core) => {
   const router = createRouter();
 
   router.add("create", (_, name) => core.createApplication({ name }));
+  router.add("register", (command, name, { email, password }) =>
+    core.register({ email, password })
+  );
   router.addFallback((command, _, { help }) => {
     !command || help
       ? printManual()

@@ -1,5 +1,3 @@
-import { ApplicationRepository } from "../../core/main";
-
-interface Repository extends ApplicationRepository {}
+import { Repository } from "@core";
 
 export { Repository };

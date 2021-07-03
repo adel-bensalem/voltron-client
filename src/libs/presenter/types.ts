@@ -1,6 +1,4 @@
-import { ApplicationCreationPresenter } from "../../core/main";
-
-interface Presenter extends ApplicationCreationPresenter {}
+import { Presenter } from "@core";
 
 interface Loader {
   start(message: string): void;
