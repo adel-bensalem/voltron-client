@@ -15,6 +15,7 @@ ${bold(white("Options:"))}
 ${bold(white("Commands:"))}
   create             create a new application, takes an application name as value
   register           create an account in Voltron system, requires an email [-e] and a password [-p]
+  authenticate       authenticate to an account in Voltron system, requires an email [-e] and a password [-p]
 `.trim()
   );
 

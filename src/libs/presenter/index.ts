@@ -2,6 +2,19 @@ import { blue, red, yellow, white } from "colors";
 import { Loader, Presenter } from "./types";
 
 const createPresenter = (loader: Loader): Presenter => ({
+  presentAuthenticationRequest() {
+    loader.start(white(`Starting authentication...`));
+  },
+  presentAuthenticationSuccess({ email }) {
+    loader.stop();
+    console.log(blue(`Successfully authenticated to ${email}`));
+  },
+  presentAuthenticationFailure(error) {
+    loader.stop();
+    error.areCredentialsInvalid
+      ? console.log(red("Your credentials are invalid"))
+      : console.log(red("An unexpected error occured"));
+  },
   presentRegistrationRequest({ email }) {
     loader.start(white(`Creating an account for ${blue(email)}...`));
   },

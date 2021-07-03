@@ -18,9 +18,6 @@ const createRepository = (): Repository => ({
           )
         )
     ),
-  findUser(credentials): Promise<User> {
-    return Promise.resolve(credentials);
-  },
   saveApplication: (application: Application): Promise<Application> =>
     new Promise((resolve, reject) =>
       axios
