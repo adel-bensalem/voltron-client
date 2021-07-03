@@ -5,3 +5,4 @@ export * from "./id";
 export * from "./identifiable";
 export * from "./registrationError";
 export * from "./user";
+export * from "./authenticationError";
