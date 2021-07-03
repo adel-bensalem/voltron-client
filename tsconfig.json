@@ -13,7 +13,11 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "./bin"
+    "outDir": "./bin",
+    "paths": {
+      "@core": ["./core/main.ts"],
+      "@types": ["./types/main.ts"]
+    }
   },
   "include": ["src"]
 }

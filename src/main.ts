@@ -7,7 +7,7 @@ import { createLoader } from "./libs/loader";
 
 const main = () => {
   const core = createCore({
-    applicationRepository: createRepository(),
+    repository: createRepository(),
     presenter: createPresenter(createLoader()),
   });
 
