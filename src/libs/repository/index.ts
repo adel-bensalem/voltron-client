@@ -6,7 +6,7 @@ const createRepository = (): Repository => ({
   saveAccount: (user): Promise<Identifiable<User>> =>
     new Promise((resolve, reject) =>
       axios
-        .post("http://repository.voltronlabs.com/users", user)
+        .post("http://localhost:8000/users", user)
         .then(({ data }) => resolve(data))
         .catch((error) =>
           reject(
@@ -18,10 +18,10 @@ const createRepository = (): Repository => ({
           )
         )
     ),
-  saveApplication: (application: Application): Promise<Application> =>
+  saveApplication: (application, user): Promise<Application> =>
     new Promise((resolve, reject) =>
       axios
-        .post("http://localhost:8000/applications", application)
+        .post("http://localhost:8000/applications", { application, user })
         .then(() => resolve(application))
         .catch((error) =>
           reject(

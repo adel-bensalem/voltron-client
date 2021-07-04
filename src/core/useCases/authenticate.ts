@@ -19,6 +19,7 @@ const createAuthenticationInteractor =
       areCredentialsInvalid: false,
       hasUnExpectedError: false,
       wasSessionNotFound: false,
+      wasAccountNotFound: false,
     };
 
     credentials
@@ -29,10 +30,9 @@ const createAuthenticationInteractor =
             .then(({ user, key }) =>
               presenter.presentAuthenticationSuccess(user, key)
             )
-            .catch((e) => {
-              console.log(e);
-              presenter.presentAuthenticationFailure({ ...error, ...e });
-            })
+            .catch((e) =>
+              presenter.presentAuthenticationFailure({ ...error, ...e })
+            )
         : presenter.presentAuthenticationFailure({
             ...error,
             areCredentialsInvalid: true,

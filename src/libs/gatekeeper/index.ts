@@ -17,6 +17,23 @@ const createGateKeeper = (): Gatekeeper => ({
           )
         )
     ),
+  ensureUserPermission: (user, resourceName) =>
+    new Promise((resolve, reject) =>
+      axios
+        .get(
+          `http://localhost:3000/users/${user.id}/resources/${resourceName}/permissions?intent=write`
+        )
+        .then(({ data }) => resolve(data))
+        .catch((error) =>
+          reject(
+            !!error.response
+              ? error.response.data
+              : !!error.request
+              ? error.request
+              : error
+          )
+        )
+    ),
 });
 
 export { createGateKeeper };

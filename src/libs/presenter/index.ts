@@ -5,14 +5,19 @@ const createPresenter = (loader: Loader): Presenter => ({
   presentAuthenticationRequest() {
     loader.start(white(`Starting authentication...`));
   },
-  presentAuthenticationSuccess({ email }) {
+  presentAuthenticationSuccess({ email }, key) {
     loader.stop();
-    console.log(blue(`Successfully authenticated to ${email}`));
+    console.log(
+      blue(`Successfully authenticated to ${email}, here is your key:\n\n`) +
+        key
+    );
   },
   presentAuthenticationFailure(error) {
     loader.stop();
     error.areCredentialsInvalid
       ? console.log(red("Your credentials are invalid"))
+      : error.wasAccountNotFound
+      ? console.log(red("Your credentials did not match any account"))
       : console.log(red("An unexpected error occured"));
   },
   presentRegistrationRequest({ email }) {
