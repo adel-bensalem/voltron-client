@@ -5,6 +5,9 @@ interface ApplicationRepository {
     application: Application,
     user: Identifiable<User>
   ): Promise<Application>;
+  getUserApplications(
+    user: Identifiable<User>
+  ): Promise<Identifiable<Application>[]>;
 }
 
 export { ApplicationRepository };

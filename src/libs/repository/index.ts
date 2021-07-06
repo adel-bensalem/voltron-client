@@ -33,6 +33,21 @@ const createRepository = (): Repository => ({
           )
         )
     ),
+  getUserApplications: ({ id }): Promise<Identifiable<Application>[]> =>
+    new Promise((resolve, reject) =>
+      axios
+        .get(`http://192.168.0.43:8000/users/${id}/applications`)
+        .then(({ data }) => resolve(data))
+        .catch((error) =>
+          reject(
+            !!error.response
+              ? error.response.data
+              : !!error.request
+              ? error.request
+              : error
+          )
+        )
+    ),
 });
 
 export { createRepository };
