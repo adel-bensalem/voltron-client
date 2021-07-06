@@ -13,6 +13,7 @@ ${bold(white("Commands:"))}
   register              create an account in Voltron system, requires an email [-e] and a password [-p]
   authenticate          authenticate to an account in Voltron system, requires an email [-e] and a password [-p]
   deploy                deploy a Voltron application, takes an application name and a path to the project directory as values
+  list                  list joined applications
  `.trim();
 
 const getCreateApplicationManual = () =>
@@ -69,11 +70,21 @@ ${bold(white("Options:"))}
   -p, --path            provide a password for authentication or registration
 `.trim();
 
+const getApplicationsRetrievalManual = () =>
+  `
+${bold(white("Usage:"))}
+  voltron list
+
+${bold(white("Description:"))}
+  list joined applications
+`.trim();
+
 const manualMap: { [key: string]: () => string } = {
   create: getCreateApplicationManual,
   register: getRegistrationManual,
   authenticate: getAuthenticationManual,
   deploy: getApplicationDeploymentManual,
+  list: getApplicationsRetrievalManual,
 };
 
 const printManual = (command: string) =>

@@ -1,7 +1,23 @@
-import { blue, red, yellow, white } from "colors";
+import { blue, red, yellow, white, bold } from "colors";
 import { Loader, Presenter } from "./types";
 
 const createPresenter = (loader: Loader): Presenter => ({
+  presentApplicationsRetrievalRequest() {
+    loader.start(white(`Looking for applications...`));
+  },
+  presentApplicationsRetrievalSuccess(applications) {
+    loader.stop();
+    console.log(bold(white("NAME")), "\n");
+    applications.map(({ name }) => console.log(white(name)));
+  },
+  presentApplicationsRetrievalFailure(error) {
+    loader.stop();
+    error.wasSessionNotFound
+      ? console.log(red(`You must be authenticated to deploy an application`))
+      : error.wasUserNotFound
+      ? console.log(red(`Your account was not found`))
+      : console.log(red("An unexpected error occured"));
+  },
   presentApplicationDeploymentRequest(applicationName) {
     loader.start(white(`Deploying ${applicationName}...`));
   },

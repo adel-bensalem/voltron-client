@@ -8,6 +8,7 @@ import { AuthenticationPresenter } from "./adapters/authenticationPresenter";
 import { ApplicationDeploymentPresenter } from "./adapters/applicationDeploymentPresenter";
 import { Shuttle } from "./adapters/shuttle";
 import { RequirementsChecker } from "./adapters/requirementsChecker";
+import { ApplicationsRetrievalPresenter } from "./adapters/applicationsRetrievalPresenter";
 import {
   ApplicationCreationInteractor,
   createApplicationCreationInteractor,
@@ -24,11 +25,16 @@ import {
   ApplicationDeploymentInteractor,
   createApplicationDeploymentInteractor,
 } from "./useCases/deployApplication";
+import {
+  ApplicationsRetrievalInteractor,
+  createApplicationsRetrievalInteractor,
+} from "./useCases/retrieveApplications";
 
 interface Presenter
   extends RegistrationPresenter,
     AuthenticationPresenter,
     ApplicationDeploymentPresenter,
+    ApplicationsRetrievalPresenter,
     ApplicationCreationPresenter {}
 interface Repository extends UserRepository, ApplicationRepository {}
 
@@ -46,6 +52,7 @@ type Core = {
   register: RegistrationInteractor;
   authenticate: AuthenticationInteractor;
   deployApplication: ApplicationDeploymentInteractor;
+  retrieveApplications: ApplicationsRetrievalInteractor;
 };
 
 const createCore = (dependencies: Dependencies): Core => ({
@@ -60,6 +67,11 @@ const createCore = (dependencies: Dependencies): Core => ({
   ),
   authenticate: createAuthenticationInteractor(
     dependencies.gatekeeper,
+    dependencies.sessionManager,
+    dependencies.presenter
+  ),
+  retrieveApplications: createApplicationsRetrievalInteractor(
+    dependencies.repository,
     dependencies.sessionManager,
     dependencies.presenter
   ),
