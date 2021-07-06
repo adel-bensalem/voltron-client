@@ -2,6 +2,39 @@ import { blue, red, yellow, white } from "colors";
 import { Loader, Presenter } from "./types";
 
 const createPresenter = (loader: Loader): Presenter => ({
+  presentApplicationDeploymentRequest(applicationName) {
+    loader.start(white(`Deploying ${applicationName}...`));
+  },
+  presentApplicationDeploymentSuccess(applicationName) {
+    loader.stop();
+    console.log(blue(`Successfully deployed ${applicationName}`));
+  },
+  presentApplicationDeploymentFailure(error, applicationName, applicationPath) {
+    loader.stop();
+    error.hasDeploymentFailed
+      ? console.log(
+          red(`Deployment of ${applicationName} at ${applicationPath} failed`)
+        )
+      : error.hasInvalidRequirements
+      ? console.log(
+          red(`Your project must be Dockerized and be a git repository`)
+        )
+      : error.wasPermissionDenied
+      ? console.log(
+          red(
+            `Permission to deploy ${applicationName} at ${applicationPath} was denied`
+          )
+        )
+      : error.wasApplicationNotFound
+      ? console.log(
+          red(
+            `Application ${applicationName} at ${applicationPath} was not found`
+          )
+        )
+      : error.wasSessionNotFound
+      ? console.log(red(`You must be authenticated to deploy an application`))
+      : console.log(red("An unexpected error occured"));
+  },
   presentAuthenticationRequest() {
     loader.start(white(`Starting authentication...`));
   },
@@ -43,6 +76,7 @@ const createPresenter = (loader: Loader): Presenter => ({
     console.log(blue(`Created application ${name}`));
   },
   presentApplicationCreationFailure: (error, { name }) => {
+    console.log(error);
     loader.stop();
     error.doesApplicationExists
       ? console.log(yellow(`Application ${blue(name)} already exists`))

@@ -16,6 +16,9 @@ const createCli = (core: Core) => {
   router.add("authenticate", (command, name, { email, password, help }) =>
     !help ? core.authenticate({ email, password }) : printManual("authenticate")
   );
+  router.add("deploy", (command, name, { application, path, help }) =>
+    !help ? core.deployApplication(application, path) : printManual("deploy")
+  );
   router.addFallback(printManual);
   router.exec(command, value, program.opts());
 };
