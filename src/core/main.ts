@@ -5,6 +5,9 @@ import { SessionManager } from "./adapters/sessionManager";
 import { ApplicationCreationPresenter } from "./adapters/applicationCreationPresenter";
 import { RegistrationPresenter } from "./adapters/registrationPresenter";
 import { AuthenticationPresenter } from "./adapters/authenticationPresenter";
+import { ApplicationDeploymentPresenter } from "./adapters/applicationDeploymentPresenter";
+import { Shuttle } from "./adapters/shuttle";
+import { RequirementsChecker } from "./adapters/requirementsChecker";
 import {
   ApplicationCreationInteractor,
   createApplicationCreationInteractor,
@@ -17,10 +20,15 @@ import {
   AuthenticationInteractor,
   createAuthenticationInteractor,
 } from "./useCases/authenticate";
+import {
+  ApplicationDeploymentInteractor,
+  createApplicationDeploymentInteractor,
+} from "./useCases/deployApplication";
 
 interface Presenter
   extends RegistrationPresenter,
     AuthenticationPresenter,
+    ApplicationDeploymentPresenter,
     ApplicationCreationPresenter {}
 interface Repository extends UserRepository, ApplicationRepository {}
 
@@ -29,12 +37,15 @@ type Dependencies = {
   presenter: Presenter;
   gatekeeper: Gatekeeper;
   sessionManager: SessionManager;
+  shuttle: Shuttle;
+  requirementsChecker: RequirementsChecker;
 };
 
 type Core = {
   createApplication: ApplicationCreationInteractor;
   register: RegistrationInteractor;
   authenticate: AuthenticationInteractor;
+  deployApplication: ApplicationDeploymentInteractor;
 };
 
 const createCore = (dependencies: Dependencies): Core => ({
@@ -52,6 +63,13 @@ const createCore = (dependencies: Dependencies): Core => ({
     dependencies.sessionManager,
     dependencies.presenter
   ),
+  deployApplication: createApplicationDeploymentInteractor(
+    dependencies.sessionManager,
+    dependencies.gatekeeper,
+    dependencies.shuttle,
+    dependencies.requirementsChecker,
+    dependencies.presenter
+  ),
 });
 
 export {
@@ -62,4 +80,6 @@ export {
   Presenter,
   Gatekeeper,
   SessionManager,
+  Shuttle,
+  RequirementsChecker,
 };

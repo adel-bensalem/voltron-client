@@ -1,4 +1,3 @@
-import { yellow } from "colors";
 import { Core } from "../core/main";
 import { program } from "./config";
 import { createRouter } from "./router";
@@ -8,18 +7,19 @@ const createCli = (core: Core) => {
   const [command = "", value = ""] = program.args;
   const router = createRouter();
 
-  router.add("create", (_, name) => core.createApplication({ name }));
-  router.add("register", (command, name, { email, password }) =>
-    core.register({ email, password })
+  router.add("create", (_, name, { help }) =>
+    !help && !!name ? core.createApplication({ name }) : printManual("create")
   );
-  router.add("authenticate", (command, name, { email, password }) =>
-    core.authenticate({ email, password })
+  router.add("register", (command, _, { email, password, help }) =>
+    !help ? core.register({ email, password }) : printManual("register")
   );
-  router.addFallback((command, _, { help }) => {
-    !command || help
-      ? printManual()
-      : console.log(yellow(`No command matched ${command}`));
-  });
+  router.add("authenticate", (command, name, { email, password, help }) =>
+    !help ? core.authenticate({ email, password }) : printManual("authenticate")
+  );
+  router.add("deploy", (command, name, { application, path, help }) =>
+    !help ? core.deployApplication(application, path) : printManual("deploy")
+  );
+  router.addFallback(printManual);
   router.exec(command, value, program.opts());
 };
 
