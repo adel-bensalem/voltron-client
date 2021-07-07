@@ -1,5 +1,10 @@
+import { Identifiable, User } from "@types";
+
 interface LogsCollector {
-  collectLogs(applicationName: string): Promise<string[]>;
+  collectLogs(
+    user: Identifiable<User>,
+    applicationName: string
+  ): Promise<string[]>;
 }
 
 export { LogsCollector };

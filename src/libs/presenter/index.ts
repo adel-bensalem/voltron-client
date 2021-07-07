@@ -7,7 +7,15 @@ const createPresenter = (loader: Loader): Presenter => ({
   },
   presentApplicationLogsRetrievalFailure(error, applicationName) {
     loader.stop();
-    error.wasApplicationNotFound
+    error.wasSessionNotFound
+      ? console.log(
+          red(`You must be authenticated to view an application's logs`)
+        )
+      : error.wasPermissionDenied
+      ? console.log(
+          red(`Permission to access ${applicationName} logs was denied`)
+        )
+      : error.wasApplicationNotFound
       ? console.log(red(`The application ${applicationName} was not found`))
       : error.isApplicationNotRunning
       ? console.log(red(`The application ${applicationName} is not running`))

@@ -93,6 +93,7 @@ const createCore = (dependencies: Dependencies): Core => ({
   ),
   retrieveApplicationLogs: createApplicationLogsRetrievalInteractor(
     dependencies.logsCollector,
+    dependencies.sessionManager,
     dependencies.presenter
   ),
 });
