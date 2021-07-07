@@ -8,6 +8,7 @@ import { createGateKeeper } from "./libs/gatekeeper";
 import { createSessionManager } from "./libs/sessionManager";
 import { createShuttle } from "./libs/shuttle";
 import { createRequirementsChecker } from "./libs/requirementsChecker";
+import { createLogsCollector } from "./libs/logsCollector";
 
 const main = () => {
   const core = createCore({
@@ -17,6 +18,7 @@ const main = () => {
     sessionManager: createSessionManager(),
     shuttle: createShuttle(),
     requirementsChecker: createRequirementsChecker(),
+    logsCollector: createLogsCollector(),
   });
 
   createCli(core);

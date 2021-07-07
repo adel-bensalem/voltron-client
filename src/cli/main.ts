@@ -13,14 +13,17 @@ const createCli = (core: Core) => {
   router.add("register", (command, _, { email, password, help }) =>
     !help ? core.register({ email, password }) : printManual("register")
   );
-  router.add("authenticate", (command, name, { email, password, help }) =>
+  router.add("authenticate", (command, _, { email, password, help }) =>
     !help ? core.authenticate({ email, password }) : printManual("authenticate")
   );
-  router.add("deploy", (command, name, { application, path, help }) =>
+  router.add("deploy", (command, _, { application, path, help }) =>
     !help ? core.deployApplication(application, path) : printManual("deploy")
   );
-  router.add("list", (command, name, { help }) =>
+  router.add("list", (command, _, { help }) =>
     !help ? core.retrieveApplications() : printManual("list")
+  );
+  router.add("logs", (command, name, { help }) =>
+    !help && !!name ? core.retrieveApplicationLogs(name) : printManual("logs")
   );
   router.addFallback(printManual);
   router.exec(command, value, program.opts());
