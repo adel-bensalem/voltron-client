@@ -9,6 +9,8 @@ import { ApplicationDeploymentPresenter } from "./adapters/applicationDeployment
 import { Shuttle } from "./adapters/shuttle";
 import { RequirementsChecker } from "./adapters/requirementsChecker";
 import { ApplicationsRetrievalPresenter } from "./adapters/applicationsRetrievalPresenter";
+import { ApplicationLogsRetrievalPresenter } from "./adapters/applicationLogsRetrievalPresenter";
+import { LogsCollector } from "./adapters/logsCollector";
 import {
   ApplicationCreationInteractor,
   createApplicationCreationInteractor,
@@ -29,12 +31,17 @@ import {
   ApplicationsRetrievalInteractor,
   createApplicationsRetrievalInteractor,
 } from "./useCases/retrieveApplications";
+import {
+  ApplicationLogsRetrievalInteractor,
+  createApplicationLogsRetrievalInteractor,
+} from "./useCases/retrieveApplicationLogs";
 
 interface Presenter
   extends RegistrationPresenter,
     AuthenticationPresenter,
     ApplicationDeploymentPresenter,
     ApplicationsRetrievalPresenter,
+    ApplicationLogsRetrievalPresenter,
     ApplicationCreationPresenter {}
 interface Repository extends UserRepository, ApplicationRepository {}
 
@@ -45,6 +52,7 @@ type Dependencies = {
   sessionManager: SessionManager;
   shuttle: Shuttle;
   requirementsChecker: RequirementsChecker;
+  logsCollector: LogsCollector;
 };
 
 type Core = {
@@ -53,6 +61,7 @@ type Core = {
   authenticate: AuthenticationInteractor;
   deployApplication: ApplicationDeploymentInteractor;
   retrieveApplications: ApplicationsRetrievalInteractor;
+  retrieveApplicationLogs: ApplicationLogsRetrievalInteractor;
 };
 
 const createCore = (dependencies: Dependencies): Core => ({
@@ -82,6 +91,10 @@ const createCore = (dependencies: Dependencies): Core => ({
     dependencies.requirementsChecker,
     dependencies.presenter
   ),
+  retrieveApplicationLogs: createApplicationLogsRetrievalInteractor(
+    dependencies.logsCollector,
+    dependencies.presenter
+  ),
 });
 
 export {
@@ -94,4 +107,5 @@ export {
   SessionManager,
   Shuttle,
   RequirementsChecker,
+  LogsCollector,
 };

@@ -8,3 +8,4 @@ export * from "./user";
 export * from "./authenticationError";
 export * from "./applicationDeploymentError";
 export * from "./applicationsRetrievalError";
+export * from "./applicationLogsRetrievalError";

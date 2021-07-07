@@ -1,7 +1,31 @@
-import { blue, red, yellow, white, bold } from "colors";
+import { blue, red, yellow, white, bold, magenta } from "colors";
 import { Loader, Presenter } from "./types";
 
 const createPresenter = (loader: Loader): Presenter => ({
+  presentApplicationLogsRetrievalRequest() {
+    loader.start(white(`Looking for logs...`));
+  },
+  presentApplicationLogsRetrievalFailure(error, applicationName) {
+    loader.stop();
+    error.wasApplicationNotFound
+      ? console.log(red(`The application ${applicationName} was not found`))
+      : error.isApplicationNotRunning
+      ? console.log(red(`The application ${applicationName} is not running`))
+      : console.log(red("An unexpected error occured"));
+  },
+  presentApplicationLogsRetrievalSuccess(logs: string[]) {
+    loader.stop();
+    console.log(
+      logs
+        .map(
+          (log, index) =>
+            `${magenta(
+              index === 0 ? "╔═" : index === logs.length - 1 ? "╚═" : "╠═"
+            )}\t${white(log)}`
+        )
+        .join("\n")
+    );
+  },
   presentApplicationsRetrievalRequest() {
     loader.start(white(`Looking for applications...`));
   },
