@@ -11,6 +11,7 @@ import { RequirementsChecker } from "./adapters/requirementsChecker";
 import { ApplicationsRetrievalPresenter } from "./adapters/applicationsRetrievalPresenter";
 import { ApplicationLogsRetrievalPresenter } from "./adapters/applicationLogsRetrievalPresenter";
 import { LogsCollector } from "./adapters/logsCollector";
+import { DeploymentLog } from "./adapters/deploymentLog";
 import {
   ApplicationCreationInteractor,
   createApplicationCreationInteractor,
@@ -53,6 +54,7 @@ type Dependencies = {
   shuttle: Shuttle;
   requirementsChecker: RequirementsChecker;
   logsCollector: LogsCollector;
+  deploymentLog: DeploymentLog;
 };
 
 type Core = {
@@ -87,6 +89,7 @@ const createCore = (dependencies: Dependencies): Core => ({
   deployApplication: createApplicationDeploymentInteractor(
     dependencies.sessionManager,
     dependencies.gatekeeper,
+    dependencies.deploymentLog,
     dependencies.shuttle,
     dependencies.requirementsChecker,
     dependencies.presenter
@@ -109,4 +112,5 @@ export {
   Shuttle,
   RequirementsChecker,
   LogsCollector,
+  DeploymentLog,
 };

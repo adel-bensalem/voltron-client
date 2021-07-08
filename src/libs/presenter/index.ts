@@ -58,6 +58,7 @@ const createPresenter = (loader: Loader): Presenter => ({
     console.log(blue(`Successfully deployed ${applicationName}`));
   },
   presentApplicationDeploymentFailure(error, applicationName, applicationPath) {
+    console.log(error);
     loader.stop();
     error.hasDeploymentFailed
       ? console.log(

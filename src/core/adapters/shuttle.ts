@@ -1,6 +1,7 @@
 type App = {
   name: string;
   path: string;
+  tag: string;
 };
 
 interface Shuttle {
