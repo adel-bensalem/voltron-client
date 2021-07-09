@@ -30,6 +30,11 @@ const createCli = (core: Core) => {
       ? core.retrieveApplicationDeployments(name)
       : printManual("deployments")
   );
+  router.add("rollback", (command, _, { help, application, tag }) =>
+    !help && !!application && !!tag
+      ? core.rollbackApplication(application, tag)
+      : printManual("rollback")
+  );
   router.addFallback(printManual);
   router.exec(command, value, program.opts());
 };
