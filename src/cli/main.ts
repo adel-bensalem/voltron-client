@@ -25,6 +25,11 @@ const createCli = (core: Core) => {
   router.add("logs", (command, name, { help }) =>
     !help && !!name ? core.retrieveApplicationLogs(name) : printManual("logs")
   );
+  router.add("deployments", (command, name, { help }) =>
+    !help && !!name
+      ? core.retrieveApplicationDeployments(name)
+      : printManual("deployments")
+  );
   router.addFallback(printManual);
   router.exec(command, value, program.opts());
 };

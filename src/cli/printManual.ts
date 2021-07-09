@@ -17,6 +17,7 @@ ${bold(white("Commands:"))}
   authenticate          authenticate to an account in Voltron system, requires an email [-e] and a password [-p]
   deploy                deploy a Voltron application, takes an application name and a path to the project directory as values
   list                  list joined applications
+  deployments           list application deployments
   logs                  retrieve provided application logs, requires application to be deployed
  `.trim();
 
@@ -97,6 +98,17 @@ ${bold(white("Description:"))}
   retrieve provided application logs, requires application to be deployed
 `.trim();
 
+const getApplicationDeploymentsRetrievalManual = () =>
+  `
+${bold(white("Usage:"))}
+
+  voltron deployments <APPLICATION_NAME>
+
+${bold(white("Description:"))}
+
+  retrieve provided application deployments
+`.trim();
+
 const getApplicationsRetrievalManual = () =>
   `
 ${bold(white("Usage:"))}
@@ -115,6 +127,7 @@ const manualMap: { [key: string]: () => string } = {
   deploy: getApplicationDeploymentManual,
   list: getApplicationsRetrievalManual,
   logs: getApplicationLogsRetrievalManual,
+  deployments: getApplicationDeploymentsRetrievalManual,
 };
 
 const printManual = (command: string) =>
