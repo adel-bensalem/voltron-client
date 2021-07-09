@@ -11,8 +11,10 @@ import { RequirementsChecker } from "./adapters/requirementsChecker";
 import { ApplicationsRetrievalPresenter } from "./adapters/applicationsRetrievalPresenter";
 import { ApplicationLogsRetrievalPresenter } from "./adapters/applicationLogsRetrievalPresenter";
 import { ApplicationDeploymentsRetrievalPresenter } from "./adapters/applicationDeploymentsRetrievalPresenter";
+import { ApplicationRollbackPresenter } from "./adapters/applicationRollbackPresenter";
 import { LogsCollector } from "./adapters/logsCollector";
 import { DeploymentLog } from "./adapters/deploymentLog";
+import { ApplicationDock } from "./adapters/applicationDock";
 import {
   ApplicationCreationInteractor,
   createApplicationCreationInteractor,
@@ -41,6 +43,10 @@ import {
   ApplicationDeploymentsRetrievalInteractor,
   createApplicationDeploymentsRetrievalInteractor,
 } from "./useCases/retrieveApplicationDeployments";
+import {
+  ApplicationRollbackInteractor,
+  createApplicationRollbackInteractor,
+} from "./useCases/rollbackApplication";
 
 interface Presenter
   extends RegistrationPresenter,
@@ -49,6 +55,7 @@ interface Presenter
     ApplicationsRetrievalPresenter,
     ApplicationLogsRetrievalPresenter,
     ApplicationDeploymentsRetrievalPresenter,
+    ApplicationRollbackPresenter,
     ApplicationCreationPresenter {}
 interface Repository extends UserRepository, ApplicationRepository {}
 
@@ -61,6 +68,7 @@ type Dependencies = {
   requirementsChecker: RequirementsChecker;
   logsCollector: LogsCollector;
   deploymentLog: DeploymentLog;
+  applicationDock: ApplicationDock;
 };
 
 type Core = {
@@ -71,6 +79,7 @@ type Core = {
   retrieveApplications: ApplicationsRetrievalInteractor;
   retrieveApplicationLogs: ApplicationLogsRetrievalInteractor;
   retrieveApplicationDeployments: ApplicationDeploymentsRetrievalInteractor;
+  rollbackApplication: ApplicationRollbackInteractor;
 };
 
 const createCore = (dependencies: Dependencies): Core => ({
@@ -112,6 +121,11 @@ const createCore = (dependencies: Dependencies): Core => ({
       dependencies.sessionManager,
       dependencies.presenter
     ),
+  rollbackApplication: createApplicationRollbackInteractor(
+    dependencies.applicationDock,
+    dependencies.sessionManager,
+    dependencies.presenter
+  ),
 });
 
 export {
@@ -126,4 +140,5 @@ export {
   RequirementsChecker,
   LogsCollector,
   DeploymentLog,
+  ApplicationDock,
 };

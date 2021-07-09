@@ -2,6 +2,26 @@ import { blue, red, yellow, white, bold, magenta } from "colors";
 import { Loader, Presenter } from "./types";
 
 const createPresenter = (loader: Loader): Presenter => ({
+  presentApplicationRollbackRequest(applicationName, tag) {
+    loader.start(white(`Rollback of ${applicationName} at ${tag}...`));
+  },
+  presentApplicationRollbackSuccess(deployment, app) {
+    loader.stop();
+    console.log(blue(`Successfully redeployed ${app}`));
+  },
+  presentApplicationRollbackFailure(error, applicationName, tag) {
+    console.log(error);
+    loader.stop();
+    error.wasSessionNotFound
+      ? console.log(red(`You must be authenticated to rollback an application`))
+      : error.wasPermissionDenied
+      ? console.log(red(`Permission to rollback ${applicationName} was denied`))
+      : error.wasApplicationNotFound
+      ? console.log(red(`The application ${applicationName} was not found`))
+      : error.wasTagNotFound
+      ? console.log(red(`The deployment at ${tag} was not found`))
+      : console.log(red("An unexpected error occured"));
+  },
   presentApplicationLogsRetrievalRequest() {
     loader.start(white(`Looking for logs...`));
   },

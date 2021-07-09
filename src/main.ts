@@ -10,6 +10,7 @@ import { createShuttle } from "./libs/shuttle";
 import { createRequirementsChecker } from "./libs/requirementsChecker";
 import { createLogsCollector } from "./libs/logsCollector";
 import { createDeploymentLog } from "./libs/deploymentLog";
+import { createApplicationDock } from "./libs/applicationDock";
 
 const main = () => {
   const core = createCore({
@@ -21,6 +22,7 @@ const main = () => {
     requirementsChecker: createRequirementsChecker(),
     logsCollector: createLogsCollector(),
     deploymentLog: createDeploymentLog(),
+    applicationDock: createApplicationDock(),
   });
 
   createCli(core);

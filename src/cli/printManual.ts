@@ -19,6 +19,7 @@ ${bold(white("Commands:"))}
   list                  list joined applications
   deployments           list application deployments
   logs                  retrieve provided application logs, requires application to be deployed
+  rollback              re deploy an application to a previous version, each deployment is tagged, you can access the with the [deployments] command
  `.trim();
 
 const getCreateApplicationManual = () =>
@@ -83,8 +84,8 @@ ${bold(white("Description:"))}
 ${bold(white("Options:"))}
 
   -h, --help            print usage information
-  -a, --application     provide an email for authentication or registration
-  -p, --path            provide a password for authentication or registration
+  -a, --application     application name to deploy
+  -p, --path            path to project repository
 `.trim();
 
 const getApplicationLogsRetrievalManual = () =>
@@ -120,6 +121,23 @@ ${bold(white("Description:"))}
   list joined applications
 `.trim();
 
+const getApplicationRollbackManual = () =>
+  `
+${bold(white("Usage:"))}
+
+  voltron rollback [OPTION...]
+
+${bold(white("Description:"))}
+
+  re deploy an application to a previous version, each deployment is tagged, you can access the with the [deployments] command
+  
+${bold(white("Options:"))}
+
+  -h, --help            print usage information
+  -a, --application     application name to rollback
+  -t, --tag             tag associated with deployment, view with [deployments] command
+`.trim();
+
 const manualMap: { [key: string]: () => string } = {
   create: getCreateApplicationManual,
   register: getRegistrationManual,
@@ -128,6 +146,7 @@ const manualMap: { [key: string]: () => string } = {
   list: getApplicationsRetrievalManual,
   logs: getApplicationLogsRetrievalManual,
   deployments: getApplicationDeploymentsRetrievalManual,
+  rollback: getApplicationRollbackManual,
 };
 
 const printManual = (command: string) =>
