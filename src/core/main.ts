@@ -10,7 +10,9 @@ import { Shuttle } from "./adapters/shuttle";
 import { RequirementsChecker } from "./adapters/requirementsChecker";
 import { ApplicationsRetrievalPresenter } from "./adapters/applicationsRetrievalPresenter";
 import { ApplicationLogsRetrievalPresenter } from "./adapters/applicationLogsRetrievalPresenter";
+import { ApplicationDeploymentsRetrievalPresenter } from "./adapters/applicationDeploymentsRetrievalPresenter";
 import { LogsCollector } from "./adapters/logsCollector";
+import { DeploymentLog } from "./adapters/deploymentLog";
 import {
   ApplicationCreationInteractor,
   createApplicationCreationInteractor,
@@ -35,6 +37,10 @@ import {
   ApplicationLogsRetrievalInteractor,
   createApplicationLogsRetrievalInteractor,
 } from "./useCases/retrieveApplicationLogs";
+import {
+  ApplicationDeploymentsRetrievalInteractor,
+  createApplicationDeploymentsRetrievalInteractor,
+} from "./useCases/retrieveApplicationDeployments";
 
 interface Presenter
   extends RegistrationPresenter,
@@ -42,6 +48,7 @@ interface Presenter
     ApplicationDeploymentPresenter,
     ApplicationsRetrievalPresenter,
     ApplicationLogsRetrievalPresenter,
+    ApplicationDeploymentsRetrievalPresenter,
     ApplicationCreationPresenter {}
 interface Repository extends UserRepository, ApplicationRepository {}
 
@@ -53,6 +60,7 @@ type Dependencies = {
   shuttle: Shuttle;
   requirementsChecker: RequirementsChecker;
   logsCollector: LogsCollector;
+  deploymentLog: DeploymentLog;
 };
 
 type Core = {
@@ -62,6 +70,7 @@ type Core = {
   deployApplication: ApplicationDeploymentInteractor;
   retrieveApplications: ApplicationsRetrievalInteractor;
   retrieveApplicationLogs: ApplicationLogsRetrievalInteractor;
+  retrieveApplicationDeployments: ApplicationDeploymentsRetrievalInteractor;
 };
 
 const createCore = (dependencies: Dependencies): Core => ({
@@ -87,6 +96,7 @@ const createCore = (dependencies: Dependencies): Core => ({
   deployApplication: createApplicationDeploymentInteractor(
     dependencies.sessionManager,
     dependencies.gatekeeper,
+    dependencies.deploymentLog,
     dependencies.shuttle,
     dependencies.requirementsChecker,
     dependencies.presenter
@@ -96,6 +106,12 @@ const createCore = (dependencies: Dependencies): Core => ({
     dependencies.sessionManager,
     dependencies.presenter
   ),
+  retrieveApplicationDeployments:
+    createApplicationDeploymentsRetrievalInteractor(
+      dependencies.deploymentLog,
+      dependencies.sessionManager,
+      dependencies.presenter
+    ),
 });
 
 export {
@@ -109,4 +125,5 @@ export {
   Shuttle,
   RequirementsChecker,
   LogsCollector,
+  DeploymentLog,
 };

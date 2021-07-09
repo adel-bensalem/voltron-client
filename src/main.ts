@@ -9,6 +9,7 @@ import { createSessionManager } from "./libs/sessionManager";
 import { createShuttle } from "./libs/shuttle";
 import { createRequirementsChecker } from "./libs/requirementsChecker";
 import { createLogsCollector } from "./libs/logsCollector";
+import { createDeploymentLog } from "./libs/deploymentLog";
 
 const main = () => {
   const core = createCore({
@@ -19,6 +20,7 @@ const main = () => {
     shuttle: createShuttle(),
     requirementsChecker: createRequirementsChecker(),
     logsCollector: createLogsCollector(),
+    deploymentLog: createDeploymentLog(),
   });
 
   createCli(core);

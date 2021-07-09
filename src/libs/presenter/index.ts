@@ -34,6 +34,39 @@ const createPresenter = (loader: Loader): Presenter => ({
         .join("\n")
     );
   },
+  presentApplicationDeploymentsRetrievalRequest() {
+    loader.start(white(`Looking for logs...`));
+  },
+  presentApplicationDeploymentsRetrievalFailure(error, applicationName) {
+    loader.stop();
+    error.wasSessionNotFound
+      ? console.log(
+          red(`You must be authenticated to view an application's logs`)
+        )
+      : error.wasPermissionDenied
+      ? console.log(
+          red(`Permission to access ${applicationName} logs was denied`)
+        )
+      : error.wasApplicationNotFound
+      ? console.log(red(`The application ${applicationName} was not found`))
+      : console.log(red("An unexpected error occured"));
+  },
+  presentApplicationDeploymentsRetrievalSuccess(deployments) {
+    loader.stop();
+    console.log(
+      `${bold(white("NAME"))}${new Array(36 - "NAME".length)
+        .fill(" ")
+        .join("")}  ${bold(white("DATE"))}`,
+      "\n"
+    );
+    deployments.map(({ tag, date }) =>
+      console.log(
+        `${white(tag)}  ${white(new Date(date).toLocaleDateString())} ${white(
+          new Date(date).toLocaleTimeString()
+        )}`
+      )
+    );
+  },
   presentApplicationsRetrievalRequest() {
     loader.start(white(`Looking for applications...`));
   },
@@ -58,6 +91,7 @@ const createPresenter = (loader: Loader): Presenter => ({
     console.log(blue(`Successfully deployed ${applicationName}`));
   },
   presentApplicationDeploymentFailure(error, applicationName, applicationPath) {
+    console.log(error);
     loader.stop();
     error.hasDeploymentFailed
       ? console.log(

@@ -4,6 +4,7 @@ import { SessionManager } from "../adapters/sessionManager";
 import { Shuttle } from "../adapters/shuttle";
 import { Gatekeeper } from "../adapters/gatekeeper";
 import { RequirementsChecker } from "../adapters/requirementsChecker";
+import { DeploymentLog } from "../adapters/deploymentLog";
 
 type ApplicationDeploymentInteractor = (
   applicationName: string,
@@ -14,6 +15,7 @@ const createApplicationDeploymentInteractor =
   (
     sessionManager: SessionManager,
     gatekeeper: Gatekeeper,
+    log: DeploymentLog,
     shuttle: Shuttle,
     requirementsChecker: RequirementsChecker,
     presenter: ApplicationDeploymentPresenter
@@ -43,11 +45,13 @@ const createApplicationDeploymentInteractor =
           .then(({ user, key }) =>
             gatekeeper
               .ensureUserPermission(user, `application.${applicationName}`)
-              .then(() =>
+              .then(() => log.tagDeployment({ name: applicationName }))
+              .then(({ tag }) =>
                 shuttle
                   .deploy(key, {
                     name: applicationName,
                     path: applicationPath,
+                    tag,
                   })
                   .then(() =>
                     presenter.presentApplicationDeploymentSuccess(
